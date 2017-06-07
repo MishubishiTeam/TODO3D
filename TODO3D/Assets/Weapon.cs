@@ -5,18 +5,20 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour {
 
-    private string nom;
-    private float rearmTime;
-    private float damage;
-    private int maxCapacity;
-    private float reloadTime;
-    private float range;
-    private int actualCapacity;
-    private bool currReload;
-    private bool currRearm;
+    public string nom;
+    public float rearmTime;
+    public float damage;
+    public int maxCapacity;
+    public float reloadTime;
+    public float range;
+    public int actualCapacity;
+    protected bool currReload;
+    protected bool currRearm;
     private DateTime initRearming;
+    public Transform animationArme;
+    private string animName;
 
-    #region constructeurs + propriétes
+
     public string Nom
     { get; set; }
 
@@ -38,102 +40,125 @@ public class Weapon : MonoBehaviour {
     public int ActualCapacity
     { get; set; }
 
-    public Weapon(string pNom, float pRearmTime, float pDamage, int pMaxCapacity, float pReloadTime, float pRange)
-    {
-        Nom = pNom;
-        RearmTime = pRearmTime;
-        Damage = pDamage;
-        MaxCapacity = pMaxCapacity;
-        ReloadTime = pReloadTime;
-        Range = pRange;
-        ActualCapacity = MaxCapacity;
-    }
+    public DateTime InitRearming
+    { get; set; }
 
-    public Weapon () { }
+    public Transform AnimationArme
+    { get; set; }
 
-    #endregion
+    public string AnimName
+    { get; set; }
 
 
 
-    #region méthodes Unity
+
+
+
+
+
+
     // Use this for initialization
-    void Start () { 
-        
-       
-    }
+    virtual protected void Start () {
+
+        }
 	
 	// Update is called once per frame
-	void Update () {
+	protected void Update () {
 
-       
-        if (Input.GetButtonDown("Fire1"))
+        if (ActualCapacity < 1)
+            currReload = true;
+
+        if (currReload == true)
+            Reloading();
+
+        else if (currRearm == true)
+            Rearming();
+        
+        else if (Input.GetButton("Fire1"))
+        {
             tirer();
-
-        if (Input.GetKeyDown(KeyCode.R))
-            currReload = true;  // début du rechargement
-       
+            //Destroy(this);
         }
 
-    #endregion
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            currReload = true;  // début du rechargement
+            InitRearming = DateTime.Now;
+        }
+       
+    }
+
+    
 
 
 
-    #region Méthodes tirs - rechargement
+    
 
-    void tirer()
+    protected void tirer()
     {
         if (ActualCapacity > 0) // si le chargeur possède des balles
         {
-            if (currentlyReloading() == false) // si le rechargement n'est pas en cours
+            RaycastHit hit = new RaycastHit();
+            InitRearming = DateTime.Now;
+            AnimationArme.GetComponent<Animation>().Play(AnimName); // ne fonctionne pas
+            currRearm = true;
+            ActualCapacity -= 1;
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit)) //bool qui définit si qqchose a été touché (.position = pos actuelle, .transdirection = direction du tir, hit = objet RaycastHit)
             {
-                if (currentlyRearming() == false) // si le réarmement n'est pas en cours (cadence)
-                {
-                    RaycastHit hit = new RaycastHit();
-                    if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit)) //bool qui définit si qqchose a été touché (.position = pos actuelle, .transdirection = direction du tir, hit = objet RaycastHit)
-                    {
-                        float distance = hit.distance;
-                        if (distance <= Range) // si la cible est a portée
-                        {
-                            ActualCapacity -= 1;
-                            hit.transform.SendMessage("ApplyDamage", Damage, SendMessageOptions.DontRequireReceiver); //ApplyDamage = nom de la méthode de l'objet touché infligeant les dégats - a modifier en cas d'appellation différente
-                            initRearming = DateTime.Now;
-                            currRearm = true;
-                        }
-                    }
-                }
+                 float distance = hit.distance;
+                 if (distance <= Range) // si la cible est a portée
+                 {
+                     hit.transform.SendMessage("ApplyDamage", Damage, SendMessageOptions.DontRequireReceiver); //ApplyDamage = nom de la méthode de l'objet touché infligeant les dégats - a modifier en cas d'appellation différente
+                 }
             }
-        }
-        else
+                
+         }
+         else
             currReload = true;  //début rechargement
     }
 
     
 
-    bool currentlyReloading()
+   /*  bool currentlyReloading() // inutile mdr
     {
         DateTime now = DateTime.Now;
-        if (now > initRearming.AddSeconds(ReloadTime) && currReload == true) // si le tps est supérieur au tps de reload et qu'il était en train de reload
+        if (now > InitRearming.AddSeconds(ReloadTime)) // si le tps est supérieur au tps de reload et qu'il était en train de reload
         {
             currReload = false;
             return false;
         }
         else
             return true;
-    }
+    } */ 
 
-    bool currentlyRearming()
+   /* bool currentlyRearming()
     {
         DateTime now = DateTime.Now;
-        if (now > initRearming.AddSeconds(RearmTime) && currRearm == true) // si le tps est supérieur au tps de relarm et qu'il était en train de rearm
+        if (now > InitRearming.AddSeconds(RearmTime)) // si le tps est supérieur au tps de relarm et qu'il était en train de rearm
         {
             currRearm = false;
             return false;
         }
         else
             return true;
+    }*/ 
+
+    protected void Reloading()
+    {
+        if (DateTime.Now > InitRearming.AddSeconds(ReloadTime)) // si le tps est supérieur au tps de reload et qu'il était en train de reload
+        {
+            currReload = false;
+            ActualCapacity = MaxCapacity;
+        }
+    }
+
+    protected void Rearming()
+    {
+        if (DateTime.Now > InitRearming.AddSeconds(RearmTime)) // si le tps est supérieur au tps de relarm et qu'il était en train de rearm
+            currRearm = false;
     }
 
     
-    #endregion
+    
 
 }

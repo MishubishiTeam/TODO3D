@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scene1.unity
+- path: P:/SemSpeIhm/TODO3D/TEST TODO/TODO3D/Assets/Scene1.unity
   isLoaded: 1
   isActive: 1
