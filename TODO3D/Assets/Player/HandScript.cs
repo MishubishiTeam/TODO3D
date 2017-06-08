@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class HandScript : MonoBehaviour
 {
+    public Transform Bullet;
 
+    private List<Transform> Bullets;
     public enum WeaponTypes
     {
         AK47,
@@ -23,6 +25,7 @@ public class HandScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Bullets = new List<Transform>();
         switch (WeaponType)
         {
             case WeaponTypes.AK47:
