@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class PlayerScript : MonoBehaviour
+public class PlayerScript : NetworkBehaviour
 {
 
     private Animator anim;
@@ -24,11 +25,18 @@ public class PlayerScript : MonoBehaviour
 
         myTransform = transform;
         cameraHolder = transform.Find("Camera Holder");
+
+        if (isLocalPlayer)
+            cameraHolder.GetChild(0).GetComponent<Camera>().enabled = true;
+        else
+            cameraHolder.GetChild(0).GetComponent<Camera>().enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer)
+            return;
         float move = Input.GetAxis("Vertical");
         anim.SetFloat("Speed", move);
         anim.SetBool("isBackwards", Input.GetKey(KeyCode.S));
@@ -36,6 +44,8 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!isLocalPlayer)
+            return;
         var inputX = Input.GetAxis("Horizontal");
         var inputY = Input.GetAxis("Vertical");
         var inputR = Mathf.Clamp(Input.GetAxis("Mouse X"), -1.0F, 1.0F);
@@ -59,6 +69,7 @@ public class PlayerScript : MonoBehaviour
 
         myTransform.position = myTransform.position + moveVector;
         myTransform.rotation = rotationAngle;
+        player.rotation = Quaternion.Euler(0.0F, currentRotation, 0.0F);
     }
 
     float ClampAngle(float angle)
