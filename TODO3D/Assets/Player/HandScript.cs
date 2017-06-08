@@ -16,6 +16,7 @@ public class HandScript : MonoBehaviour
     public GameObject AkPrefab;
     public GameObject UziPrefab;
     public GameObject M4A1Prefab;
+    public Camera cam;
 
     private GameObject weapon;
     private Transform weaponTransform;
@@ -29,6 +30,7 @@ public class HandScript : MonoBehaviour
                 weapon = (GameObject)Instantiate(AkPrefab);
                 weaponTransform = weapon.transform;
                 weaponTransform.SetParent(transform.parent, false);
+                weapon.GetComponent<Weapon>().cam = cam;
                 break;
             case WeaponTypes.Uzi:
                 break;

@@ -11,6 +11,21 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1822630947390726}
   m_IsPrefabParent: 1
+--- !u!1 &1083688099481278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4852937372460852}
+  m_Layer: 0
+  m_Name: BulletSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1647642806937060
 GameObject:
   m_ObjectHideFlags: 0
@@ -53,9 +68,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4588511150104428}
+  - component: {fileID: 114474418100948442}
+  - component: {fileID: 114765135301684716}
   m_Layer: 0
   m_Name: AK47PLAYER
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,9 +133,23 @@ Transform:
   - {fileID: 4462467509431012}
   - {fileID: 4856109668500580}
   - {fileID: 4504096487996694}
+  - {fileID: 4852937372460852}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -70.83, y: 316.811, z: -236.30699}
+--- !u!4 &4852937372460852
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1083688099481278}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0.842}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4588511150104428}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4856109668500580
 Transform:
   m_ObjectHideFlags: 1
@@ -246,3 +277,60 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1745271347138608}
   m_Mesh: {fileID: 4300000, guid: cd8d56469cf64654eaa21e15c6ae7c18, type: 3}
+--- !u!114 &114474418100948442
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1822630947390726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0f27f8838ac714681999328574e4e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Mode: 2
+  Bullet: {fileID: 1925933831650164, guid: 98734f7bc61440a4b8740158a3201f92, type: 2}
+  Origin: {fileID: 4852937372460852}
+  cam: {fileID: 0}
+  player: {fileID: 0}
+  nom: AK-47
+  rearmTime: 0.05
+  damage: 50
+  BulletSpeed: 20
+  maxCapacity: 30
+  reloadTime: 2.5
+  range: 200
+  currentCapacity: 30
+  animationArme: {fileID: 0}
+--- !u!114 &114765135301684716
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1822630947390726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 70
+    i1: 172
+    i2: 71
+    i3: 180
+    i4: 7
+    i5: 65
+    i6: 219
+    i7: 100
+    i8: 9
+    i9: 111
+    i10: 186
+    i11: 26
+    i12: 71
+    i13: 241
+    i14: 76
+    i15: 204
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
