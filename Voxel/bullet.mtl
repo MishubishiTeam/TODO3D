@@ -1,0 +1,13 @@
+# Blender MTL File: 'bullet.blend'
+# Material Count: 1
+
+newmtl Material.003
+Ns 372.549020
+Ka 0.300000 0.300000 0.300000
+Kd 0.000000 0.000000 0.000000
+Ks 1.096000 1.096000 1.096000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 3
+map_Bump -bm 0.361852 C:\\Users\\Raymond Pierre-Louis\\Desktop\\url.htm
