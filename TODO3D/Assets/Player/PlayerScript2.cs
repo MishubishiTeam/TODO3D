@@ -40,6 +40,7 @@ public class PlayerScript2 : NetworkBehaviour
     private Image healthBarTransform;
     private SkinnedMeshRenderer meshRenderer;
     private DateTime timeOfDeath;
+    private new TPCamera camera;
 
     private void Start()
     {
@@ -50,6 +51,7 @@ public class PlayerScript2 : NetworkBehaviour
         respawnTimer = respawnTime;
         healthBarTransform = healthBar.GetComponent<Image>();
         meshRenderer = mesh.GetComponent<SkinnedMeshRenderer>();
+	camera = cameraHolder.GetChild(0).GetComponent<TPCamera>();
 
         if (isLocalPlayer)
         {
@@ -160,23 +162,14 @@ public class PlayerScript2 : NetworkBehaviour
 
         var inputX = Input.GetAxis("Horizontal");
         var inputY = Input.GetAxis("Vertical");
-        var inputR = Mathf.Clamp(Input.GetAxis("Mouse X"), -1.0F, 1.0F);
-        var inputW = Mathf.Clamp(Input.GetAxis("Mouse Y"), -1.0F, 1.0F);
 
         Vector3 moveVectorX = transform.forward * inputY;
         Vector3 moveVectorY = transform.right * inputX;
         Vector3 moveVector = (moveVectorX + moveVectorY).normalized * Speed * Time.deltaTime;
 
-        currentRotation = ClampAngle(currentRotation + (inputR * RotationSpeed));
-        currentVerticalRotation = Mathf.Clamp(ClampAngle(currentVerticalRotation + (inputW * RotationSpeed)), -30, 30);
-
-        Quaternion rotationAngle = Quaternion.Euler(0.0F, currentRotation, 0.0F);
-
-        playerCamera.transform.rotation = Quaternion.Euler(-currentVerticalRotation, currentRotation, 0.0F);
-
         transform.position = transform.position + moveVector;
         transform.rotation = rotationAngle;
-        playerRigidBody.rotation = Quaternion.Euler(0.0F, currentRotation, 0.0F);
+        playerRigidBody.rotation = Quaternion.Euler(0.0F, camera.currentX, 0.0F);
     }
 
     private bool isGrounded()
