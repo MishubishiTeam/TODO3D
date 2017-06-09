@@ -264,7 +264,7 @@ public class PlayerScript2 : NetworkBehaviour {
         return angle;
     }
 
-    //[Command]
+    [Command]
     void CmdFire()
     {
         var bullet = Instantiate(
