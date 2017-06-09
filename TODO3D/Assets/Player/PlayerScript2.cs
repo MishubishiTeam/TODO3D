@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class PlayerScript2 : NetworkBehaviour {
+public class PlayerScript2 : NetworkBehaviour
+{
 
     // Public
     public GameObject BulletPrefab;
@@ -13,8 +15,11 @@ public class PlayerScript2 : NetworkBehaviour {
     public float RotationSpeed = 5.0F;
     public float jumpSpeed = 5.0F;
     public GameObject playerCamera;
-    [SyncVar(hook = "OnChangeHealth")]
+    [SyncVar]
     public float currentHealth = maxHealth;
+    public float respawnTime;
+    public GameObject healthBar;
+    public GameObject mesh;
 
     public const int maxHealth = 100;
 
@@ -31,6 +36,10 @@ public class PlayerScript2 : NetworkBehaviour {
     private float currentRotation = 0.0F;
     private float currentVerticalRotation = 0.0F;
     private int jumpHash = Animator.StringToHash("Jump");
+    private float respawnTimer;
+    private Image healthBarTransform;
+    private SkinnedMeshRenderer meshRenderer;
+    private DateTime timeOfDeath;
 
     private void Start()
     {
@@ -38,9 +47,9 @@ public class PlayerScript2 : NetworkBehaviour {
         playerRigidBody = GetComponent<Rigidbody>();
         searcher = GetComponent<GameObjectSearcher>();
         cameraHolder = transform.Find("CameraHolder");
-        
-
-        Spawn();
+        respawnTimer = respawnTime;
+        healthBarTransform = healthBar.GetComponent<Image>();
+        meshRenderer = mesh.GetComponent<SkinnedMeshRenderer>();
 
         if (isLocalPlayer)
         {
@@ -49,12 +58,47 @@ public class PlayerScript2 : NetworkBehaviour {
         }
         else
             playerCamera.GetComponent<Camera>().enabled = false;
+
+        Spawn();
+    }
+
+    [ClientRpc]
+    private void RpcRespawn()
+    {
+        if (isLocalPlayer)
+        {
+            meshRenderer.enabled = true;
+            foreach (var item in weapon.GetComponentsInChildren<MeshRenderer>())
+            {
+                item.enabled = true;
+            }
+            currentHealth = maxHealth;
+            playerCamera.GetComponent<Camera>().enabled = true;
+            System.Random rnd = new System.Random();
+            var spawns = GameObject.FindGameObjectsWithTag("Spawn").ToList();
+            var spawn = spawns[rnd.Next(spawns.Count)];
+            transform.position = spawn.transform.position;
+        }
     }
 
     private void Update()
     {
         if (!isLocalPlayer)
             return;
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ApplyDamage(100);
+        }
+
+        if (isDead)
+        {
+            RpcRespawn();
+        }
+
+        healthBarTransform.fillAmount = currentHealth / 100;
+
+
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -135,11 +179,6 @@ public class PlayerScript2 : NetworkBehaviour {
         playerRigidBody.rotation = Quaternion.Euler(0.0F, currentRotation, 0.0F);
     }
 
-    void OnChangeHealth(float currentHealth)
-    {
-        //TODO : update de la barre de vie
-    }
-
     private bool isGrounded()
     {
         var collider = GetComponent<Collider>();
@@ -153,9 +192,21 @@ public class PlayerScript2 : NetworkBehaviour {
         currentHealth -= dmg;
         if (isDead)
         {
-            currentHealth = 0;
-            Debug.Log("loltmor");
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        timeOfDeath = DateTime.Now;
+        currentHealth = 0;
+        meshRenderer.enabled = false;
+        foreach (var item in weapon.GetComponentsInChildren<MeshRenderer>())
+        {
+            item.enabled = false;
+        }
+        playerCamera.GetComponent<Camera>().enabled = false;
+        Camera.main.enabled = true;
     }
 
     void Spawn()

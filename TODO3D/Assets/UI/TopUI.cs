@@ -8,7 +8,7 @@ public class TopUI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Element.transform.Translate(new Vector3(0,Screen.height/10+30, 0));
+        Element.GetComponent<RectTransform>().position = (new Vector3(Screen.width / 2 - Element.GetComponent<RectTransform>().rect.width / 2 ,Screen.height/10+30, 0));
 	}
 	
 	// Update is called once per frame
