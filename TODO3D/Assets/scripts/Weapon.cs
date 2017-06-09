@@ -64,13 +64,20 @@ public class Weapon : NetworkBehaviour {
     public string AnimName
     { get; set; }
 
+    public bool CanShoot
+    {
+        get
+        {
+            return ActualCapacity >= 1 && !currRearm && !currReload;
+        }
+    }
+
     // Use this for initialization
     virtual protected void Start () {
         
     }
 	
 	// Update is called once per frame
-    [ClientCallback]
 	protected void Update () {
         if (ActualCapacity < 1)
             currReload = true;
@@ -108,10 +115,8 @@ public class Weapon : NetworkBehaviour {
     }
 
     
-    protected void Tirer()
+    public void Tirer()
     {
-        CmdTirer();
-
         if (ActualCapacity > 0)
         {
             RaycastHit hit = new RaycastHit();
@@ -131,33 +136,6 @@ public class Weapon : NetworkBehaviour {
         }
         else
             currReload = true;
-    }
-
-    [Command]
-    protected void CmdTirer()
-    {
-        if (!isClient)
-            CreateBullet();
-        RpcFire();
-    }
-
-    public void CreateBullet()
-    {
-        GameObject bullet = Instantiate(Bullet, Origin.position, Origin.rotation);
-
-        Vector3 mousepos = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Range));
-        bullet.transform.LookAt(mousepos);
-        bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * BulletSpeed;
-
-        NetworkServer.SpawnWithClientAuthority(bullet, player);
-
-        //Destroy(bullet, 2.0F);
-    }
-
-    [ClientRpc]
-    public void RpcFire()
-    {
-
     }
 
     protected void Reloading()
