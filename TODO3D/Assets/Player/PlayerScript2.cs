@@ -185,6 +185,8 @@ public class PlayerScript2 : NetworkBehaviour {
 
         if (Input.GetMouseButton(0))
         {
+            if (Cursor.lockState != CursorLockMode.Locked)
+                Cursor.lockState = CursorLockMode.Locked;
             CmdFire();
         }
 
