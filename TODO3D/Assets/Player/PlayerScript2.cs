@@ -47,11 +47,11 @@ public class PlayerScript2 : NetworkBehaviour
         anim = GetComponent<Animator>();
         playerRigidBody = GetComponent<Rigidbody>();
         searcher = GetComponent<GameObjectSearcher>();
-        cameraHolder = transform.Find("CameraHolder");
+        cameraHolder = transform.Find("Camera Holder");
         respawnTimer = respawnTime;
         healthBarTransform = healthBar.GetComponent<Image>();
         meshRenderer = mesh.GetComponent<SkinnedMeshRenderer>();
-	camera = cameraHolder.GetChild(0).GetComponent<TPCamera>();
+	    camera = cameraHolder.GetChild(0).GetComponent<TPCamera>();
 
         if (isLocalPlayer)
         {
@@ -80,6 +80,7 @@ public class PlayerScript2 : NetworkBehaviour
             var spawns = GameObject.FindGameObjectsWithTag("Spawn").ToList();
             var spawn = spawns[rnd.Next(spawns.Count)];
             transform.position = spawn.transform.position;
+            playerRigidBody.velocity = Vector3.zero;
         }
     }
 
@@ -162,6 +163,7 @@ public class PlayerScript2 : NetworkBehaviour
 
         var inputX = Input.GetAxis("Horizontal");
         var inputY = Input.GetAxis("Vertical");
+        Quaternion rotationAngle = Quaternion.Euler(0.0F, currentRotation, 0.0F);
 
         Vector3 moveVectorX = transform.forward * inputY;
         Vector3 moveVectorY = transform.right * inputX;
@@ -175,7 +177,7 @@ public class PlayerScript2 : NetworkBehaviour
     private bool isGrounded()
     {
         var collider = GetComponent<Collider>();
-        return !Physics.CapsuleCast(collider.bounds.center, collider.bounds.center - new Vector3(0.1F, 0.1F, 0.1F), 0.3F, -Vector3.up, 5F);
+        return !Physics.CapsuleCast(collider.bounds.center, collider.bounds.center - new Vector3(0.1F, 0.1F, 0.1F), 0.3F, -Vector3.up, 1F);
     }
 
     public void ApplyDamage(float dmg)
