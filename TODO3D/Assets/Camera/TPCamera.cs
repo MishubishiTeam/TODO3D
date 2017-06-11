@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class TPCamera : MonoBehaviour {
+public class TPCamera : NetworkBehaviour {
 
     public Transform LookAt;
     public Transform camTransform;
@@ -25,6 +26,7 @@ public class TPCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //if (!isLocalPlayer) return;
         currentX += Input.GetAxis("Mouse X");
         currentY -= Input.GetAxis("Mouse Y");
 
@@ -33,6 +35,7 @@ public class TPCamera : MonoBehaviour {
 
     private void LateUpdate()
     {
+        //if (!isLocalPlayer) return;
         Vector3 pos = new Vector3(0, 0.5f, -distance);
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
         camTransform.position = LookAt.position + rotation * pos;

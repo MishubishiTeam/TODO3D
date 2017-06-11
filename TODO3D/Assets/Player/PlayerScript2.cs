@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prototype.NetworkLobby;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,16 +52,16 @@ public class PlayerScript2 : NetworkBehaviour
         respawnTimer = respawnTime;
         healthBarTransform = healthBar.GetComponent<Image>();
         meshRenderer = mesh.GetComponent<SkinnedMeshRenderer>();
-	    camera = cameraHolder.GetChild(0).GetComponent<TPCamera>();
+        camera = cameraHolder.GetChild(0).GetComponent<TPCamera>();
 
+        
         if (isLocalPlayer)
         {
             playerCamera.GetComponent<Camera>().enabled = true;
-            Cursor.lockState = CursorLockMode.Locked;
         }
         else
             playerCamera.GetComponent<Camera>().enabled = false;
-
+        
         Spawn();
     }
 
@@ -74,7 +75,7 @@ public class PlayerScript2 : NetworkBehaviour
             {
                 item.enabled = true;
             }
-            currentHealth = maxHealth;
+            
             playerCamera.GetComponent<Camera>().enabled = true;
             System.Random rnd = new System.Random();
             var spawns = GameObject.FindGameObjectsWithTag("Spawn").ToList();
@@ -86,27 +87,27 @@ public class PlayerScript2 : NetworkBehaviour
 
     private void Update()
     {
+
         if (!isLocalPlayer)
             return;
+
+        if (Cursor.lockState != CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
             ApplyDamage(100);
         }
 
-        if (isDead)
-        {
-            RpcRespawn();
-        }
 
         healthBarTransform.fillAmount = currentHealth / 100;
-
-
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
 
         if (weapon == null)
         {
@@ -135,13 +136,13 @@ public class PlayerScript2 : NetworkBehaviour
         {
             case Weapon.ShootingMode.CoupParCoup:
                 if (Input.GetMouseButtonDown(0))
-                    CmdFire();
+                    Fire();
                 break;
             case Weapon.ShootingMode.Rafale:
                 break;
             case Weapon.ShootingMode.Auto:
                 if (Input.GetMouseButton(0))
-                    CmdFire();
+                    Fire();
                 break;
             default:
                 break;
@@ -187,21 +188,9 @@ public class PlayerScript2 : NetworkBehaviour
         currentHealth -= dmg;
         if (isDead)
         {
-            Die();
+            currentHealth = maxHealth;
+            RpcRespawn();
         }
-    }
-
-    private void Die()
-    {
-        timeOfDeath = DateTime.Now;
-        currentHealth = 0;
-        meshRenderer.enabled = false;
-        foreach (var item in weapon.GetComponentsInChildren<MeshRenderer>())
-        {
-            item.enabled = false;
-        }
-        playerCamera.GetComponent<Camera>().enabled = false;
-        Camera.main.enabled = true;
     }
 
     void Spawn()
@@ -225,10 +214,15 @@ public class PlayerScript2 : NetworkBehaviour
         return angle;
     }
 
-    [Command]
-    void CmdFire()
+    void Fire()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        Vector3 mousepos = playerCamera.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, weapon.Range));
+        CmdFire(mousepos.x, mousepos.y, mousepos.z);
+    }
+
+    [Command]
+    void CmdFire(float dirX, float dirY, float dirZ)
+    {
         if (weapon.CanShoot)
         {
             weapon.Tirer();
@@ -238,10 +232,13 @@ public class PlayerScript2 : NetworkBehaviour
             bulletSpawn.rotation
             );
 
-            bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 6;
 
-            Vector3 mousepos = playerCamera.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, weapon.Range));
-            bullet.transform.LookAt(mousepos);
+
+            bullet.GetComponent<BulletScript>().dmg = weapon.damage;
+
+            //Vector3 mousepos = playerCamera.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, weapon.Range));
+            bullet.transform.LookAt(new Vector3(dirX, dirY, dirZ));
+
             bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * weapon.BulletSpeed;
 
 
