@@ -12,6 +12,9 @@ public class PlayerScript2 : NetworkBehaviour
 
     // Public
     public GameObject BulletPrefab;
+    public float BUFFED_SPEED = 2.5F;
+    public float INIT_SPEED = 1.0F;
+    public int SPEED_TIMER = 5;
     public float Speed = 5.0F;
     public float RotationSpeed = 5.0F;
     public float jumpSpeed = 5.0F;
@@ -27,6 +30,7 @@ public class PlayerScript2 : NetworkBehaviour
     public bool isDead { get { return currentHealth <= 0; } }
 
     // Private
+    private DateTime timerSpeed;
     private Vector3 jump;
     private Transform bulletSpawn;
     private Transform cameraHolder;
@@ -108,6 +112,12 @@ public class PlayerScript2 : NetworkBehaviour
 
 
         healthBarTransform.fillAmount = currentHealth / 100;
+
+	if (BuffedSpeed())
+            Speed = BUFFED_SPEED;
+        else
+            Speed = INIT_SPEED;
+
 
         if (weapon == null)
         {
@@ -246,5 +256,32 @@ public class PlayerScript2 : NetworkBehaviour
 
             Destroy(bullet, 2.0F);
         }
+    }
+
+	private void OnCollisionEnter(Collision collision)
+    	{
+        if (collision.collider.gameObject != GameObject.FindGameObjectWithTag("GameMap"))
+        {
+            if (collision.collider.gameObject == GameObject.FindGameObjectWithTag("BonusLife"))
+            {
+                currentHealth += 30;
+                Destroy(collision.collider.gameObject);
+            }
+
+            if(collision.collider.gameObject == GameObject.FindGameObjectWithTag("BonusSpeed"))
+            {
+                Destroy(collision.collider.gameObject);
+                timerSpeed = DateTime.Now;
+            }
+
+        }
+    }
+
+    private bool BuffedSpeed()
+    {
+        if (DateTime.Now > timerSpeed.AddSeconds(5))
+            return false;
+        else
+            return true;
     }
 }

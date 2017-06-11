@@ -1,36 +1,35 @@
 Initialize engine version: 5.5.2f1 (3829d7f588f3)
 GfxDevice: creating device client; threaded=1
 Direct3D:
-    Version:  Direct3D 11.0 [level 11.0]
-    Renderer: NVIDIA GeForce GT 630 (ID=0xfc2)
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 980 (ID=0x13c0)
     Vendor:   NVIDIA
-    VRAM:     1990 MB
-    Driver:   10.18.13.5435
+    VRAM:     3072 MB
+    Driver:   21.21.13.7653
 Begin MonoManager ReloadAssembly
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
-Loading W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
-- Completed reload, in  1.228 seconds
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\System.dll (this message is harmless)
-desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+Platform assembly: G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+- Completed reload, in  0.021 seconds
+Platform assembly: G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: G:\IUT\TODO3D\todo3d\TODO3D\TODO3D_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3840x1080 at 0,0
 <RI> Initializing input.
-XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.022703 ms
+UnloadTime: 1.130197 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 1a8c -> priority: 1 
-  Thread -> id: 1f34 -> priority: 1 
+  Thread -> id: 1a4 -> priority: 1 
+  Thread -> id: 1948 -> priority: 1 
 The prefab 'Player' has multiple NetworkIdentity components. There can only be one NetworkIdentity on a prefab, and it must be on the root object.
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
@@ -44,7 +43,7 @@ DontDestroyOnLoad only work for root GameObjects or components on root GameObjec
 (Filename:  Line: 447)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.822936 ms
+UnloadTime: 1.773266 ms
 Step Offset must be less or equal to <scaled Height> + <scaled Radius> * 2
  
 (Filename:  Line: 642)
@@ -59,5 +58,5 @@ The prefab 'Player' has multiple NetworkIdentity components. There can only be o
 
 
 Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 1163.
-Total: 0.925202 ms (FindLiveObjects: 0.083011 ms CreateObjectMapping: 0.050410 ms MarkObjects: 0.782120 ms  DeleteObjects: 0.009055 ms)
+Total: 0.970454 ms (FindLiveObjects: 0.098888 ms CreateObjectMapping: 0.036863 ms MarkObjects: 0.826217 ms  DeleteObjects: 0.008191 ms)
 
