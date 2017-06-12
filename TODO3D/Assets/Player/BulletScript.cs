@@ -14,7 +14,7 @@ public class BulletScript : MonoBehaviour {
     {
         var hit = collision.gameObject;
         var p = hit.GetComponent<PlayerScript2>();
-        if (p != null && p != sender)
+        if (p != null && sender != null && p != sender)
         {
             p.ApplyDamage(dmg);
             Destroy(gameObject);

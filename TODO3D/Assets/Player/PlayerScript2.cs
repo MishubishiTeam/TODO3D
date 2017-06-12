@@ -41,7 +41,12 @@ public class PlayerScript2 : NetworkBehaviour
     public string playerName;
     [SyncVar]
     public PlayerColor color;
-    
+
+
+    public float BUFFED_SPEED = 2.5F;
+    public float INIT_SPEED = 1.0F;
+    public int SPEED_TIMER = 5;
+
 
     public const int maxHealth = 100;
 
@@ -64,6 +69,8 @@ public class PlayerScript2 : NetworkBehaviour
     private DateTime timeOfDeath;
     private new TPCamera camera;
     private Text ammotext;
+    private DateTime timerSpeed;
+
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -115,6 +122,11 @@ public class PlayerScript2 : NetworkBehaviour
 
         if (!isLocalPlayer)
             return;
+
+        if (BuffedSpeed())
+            Speed = BUFFED_SPEED;
+        else
+            Speed = INIT_SPEED;
 
         if (Cursor.lockState != CursorLockMode.Locked)
         {
@@ -279,4 +291,31 @@ public class PlayerScript2 : NetworkBehaviour
             Destroy(bullet, 2.0F);
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.gameObject != GameObject.FindGameObjectWithTag("GameMap"))
+        {
+            if (collision.collider.gameObject.tag == "BonusLife" && currentHealth < maxHealth)
+            {
+                currentHealth += 30;
+                Destroy(collision.collider.gameObject);
+            }
+
+            if (collision.collider.gameObject.tag == "BonusSpeed")
+            {
+                Destroy(collision.collider.gameObject);
+                timerSpeed = DateTime.Now;
+            }
+
+        }
+    }
+
+    private bool BuffedSpeed()
+    {
+        if (DateTime.Now > timerSpeed.AddSeconds(5))
+            return false;
+        else
+            return true;
+    }
+
 }

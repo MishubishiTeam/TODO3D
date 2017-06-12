@@ -7,30 +7,30 @@ Direct3D:
     VRAM:     1990 MB
     Driver:   10.18.13.5435
 Begin MonoManager ReloadAssembly
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
-Loading W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
-- Completed reload, in  1.025 seconds
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: W:\UnityProject\TODO3D\TODO3D\TODO3D_Data\Managed\System.dll (this message is harmless)
+Platform assembly: W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+- Completed reload, in  1.434 seconds
+Platform assembly: W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: W:\UnityProject\newtodo\TODO3D\TODO3D_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 2.043293 ms
+UnloadTime: 1.036286 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 264c -> priority: 1 
-  Thread -> id: 1810 -> priority: 1 
+  Thread -> id: 1768 -> priority: 1 
+  Thread -> id: 20a8 -> priority: 1 
 The prefab 'Player' has multiple NetworkIdentity components. There can only be one NetworkIdentity on a prefab, and it must be on the root object.
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
@@ -38,31 +38,13 @@ The prefab 'Player' has multiple NetworkIdentity components. There can only be o
 The prefab 'Player' has multiple NetworkIdentity components. There can only be one NetworkIdentity on a prefab, and it must be on the root object.
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
- 
-(Filename:  Line: 447)
 
 DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
  
 (Filename:  Line: 447)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.242457 ms
-Step Offset must be less or equal to <scaled Height> + <scaled Radius> * 2
- 
-(Filename:  Line: 642)
-
-Step Offset must be less or equal to <scaled Height> + <scaled Radius> * 2
- 
-(Filename:  Line: 642)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at System.Int32.ToString () [0x00000] in <filename unknown>:0 
-  at PlayerScript2.Update () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
+UnloadTime: 1.438365 ms
 Step Offset must be less or equal to <scaled Height> + <scaled Radius> * 2
  
 (Filename:  Line: 642)
@@ -76,12 +58,6 @@ The prefab 'Player' has multiple NetworkIdentity components. There can only be o
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 
-Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 1434.
-Total: 1.142541 ms (FindLiveObjects: 0.105047 ms CreateObjectMapping: 0.058560 ms MarkObjects: 0.968368 ms  DeleteObjects: 0.009659 ms)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at System.Int32.ToString () [0x00000] in <filename unknown>:0 
-  at PlayerScript2.Update () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 1302.
+Total: 0.883847 ms (FindLiveObjects: 0.061881 ms CreateObjectMapping: 0.043467 ms MarkObjects: 0.714201 ms  DeleteObjects: 0.063692 ms)
 
