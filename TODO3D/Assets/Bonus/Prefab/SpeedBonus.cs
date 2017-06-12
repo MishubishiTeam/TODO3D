@@ -11,11 +11,13 @@ public class SpeedBonus : MonoBehaviour {
     float z;
     public const float PAS = 0.005F;
 
+
     // Use this for initialization
     void Start () {
-        x = transform.position.x;
-        y = transform.position.y;
-        z = transform.position.z;
+        
+        x = Random.Range(-4.0F, 10.0F);
+        y = 0.35F;
+        z = Random.Range(-5.0F, 5.0F);
         gameObject.tag = "BonusSpeed";
         isAscending = true;
     }

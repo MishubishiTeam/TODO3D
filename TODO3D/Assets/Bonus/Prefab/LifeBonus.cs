@@ -13,9 +13,9 @@ public class LifeBonus : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        x = transform.position.x;
+        x = Random.Range(-4.0F, 10.0F);
         y = transform.position.y;
-        z = transform.position.z;
+        z = Random.Range(-5.0F, 5.0F);
         gameObject.tag = "BonusLife";
         isAscending = true;
 	}
