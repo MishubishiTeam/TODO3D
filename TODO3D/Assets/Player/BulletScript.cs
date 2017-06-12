@@ -17,8 +17,7 @@ public class BulletScript : MonoBehaviour {
         if (p != null && p != sender)
         {
             p.ApplyDamage(dmg);
+            Destroy(gameObject);
         }
-
-        Destroy(gameObject);
     }
 }

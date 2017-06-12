@@ -25,9 +25,6 @@ public class PlayerScript2 : NetworkBehaviour
 
     // Public
     public GameObject BulletPrefab;
-    public float BUFFED_SPEED = 2.5F;
-    public float INIT_SPEED = 1.0F;
-    public int SPEED_TIMER = 5;
     public float Speed = 5.0F;
     public float RotationSpeed = 5.0F;
     public float jumpSpeed = 5.0F;
@@ -51,7 +48,6 @@ public class PlayerScript2 : NetworkBehaviour
     public bool isDead { get { return currentHealth <= 0; } }
 
     // Private
-    private DateTime timerSpeed;
     private Vector3 jump;
     private Transform bulletSpawn;
     private Transform cameraHolder;
@@ -125,20 +121,10 @@ public class PlayerScript2 : NetworkBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
-
         if (Input.GetKeyDown(KeyCode.P))
         {
             ApplyDamage(100);
         }
-
-        if (BuffedSpeed())
-            Speed = BUFFED_SPEED;
-        else
-            Speed = INIT_SPEED;
 
         ammotext.text = weapon.ActualCapacity.ToString() + " / " + weapon.MaxCapacity.ToString();
         if ((float)weapon.ActualCapacity / (float)weapon.MaxCapacity <= 0.15F)
@@ -261,6 +247,8 @@ public class PlayerScript2 : NetworkBehaviour
     void Fire()
     {
         Vector3 mousepos = playerCamera.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, weapon.Range));
+        if (weapon.CanShoot)
+            weapon.MakeSomeNoiseBoomBoom();
         CmdFire(mousepos.x, mousepos.y, mousepos.z);
     }
 
@@ -290,32 +278,5 @@ public class PlayerScript2 : NetworkBehaviour
 
             Destroy(bullet, 2.0F);
         }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.gameObject != GameObject.FindGameObjectWithTag("GameMap"))
-        {
-            if (collision.collider.gameObject == GameObject.FindGameObjectWithTag("BonusLife") && currentHealth < maxHealth)
-            {
-                currentHealth += 30;
-                Destroy(collision.collider.gameObject);
-            }
-
-            if (collision.collider.gameObject == GameObject.FindGameObjectWithTag("BonusSpeed"))
-            {
-                Destroy(collision.collider.gameObject);
-                timerSpeed = DateTime.Now;
-            }
-
-        }
-    }
-
-    private bool BuffedSpeed()
-    {
-        if (DateTime.Now > timerSpeed.AddSeconds(5))
-            return false;
-        else
-            return true;
     }
 }

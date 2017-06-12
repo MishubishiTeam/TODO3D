@@ -33,7 +33,7 @@ public class Weapon : NetworkBehaviour {
     private DateTime initRearming;
     public Transform animationArme;
     private string animName;
-
+    private AudioSource audioSource;
 
     public string Nom
     { get; set; }
@@ -73,9 +73,12 @@ public class Weapon : NetworkBehaviour {
         }
     }
 
+    virtual protected void Start()
+    { }
+
     // Use this for initialization
-    virtual protected void Start () {
-        
+    virtual protected void Awake () {
+        audioSource = GetComponent<AudioSource>();
     }
 	
 	// Update is called once per frame
@@ -125,6 +128,7 @@ public class Weapon : NetworkBehaviour {
     
     public void Tirer()
     {
+
         if (ActualCapacity > 0)
         {
             RaycastHit hit = new RaycastHit();
@@ -161,7 +165,10 @@ public class Weapon : NetworkBehaviour {
             currRearm = false;
     }
 
-    
+    public void MakeSomeNoiseBoomBoom()
+    {
+        audioSource.PlayOneShot(audioSource.clip);
+    }
     
 
 }
