@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class Weapon : NetworkBehaviour {
 
@@ -43,8 +44,8 @@ public class Weapon : NetworkBehaviour {
     public float Damage
     { get; set; }
 
-    public int MaxCapacity
-    { get; set; }
+    [SyncVar]
+    public int MaxCapacity;
 
     public float ReloadTime
     { get; set; }
@@ -52,8 +53,8 @@ public class Weapon : NetworkBehaviour {
     public float Range
     { get; set; }
 
-    public int ActualCapacity
-    { get; set; }
+    [SyncVar]
+    public int ActualCapacity;
 
     public DateTime InitRearming
     { get; set; }
@@ -83,7 +84,14 @@ public class Weapon : NetworkBehaviour {
             currReload = true;
 
         if (currReload == true)
+        {
             Reloading();
+            player.GetComponent<PlayerScript2>().reloadingLabel.GetComponent<Text>().enabled = true;
+        }
+        else
+        {
+            player.GetComponent<PlayerScript2>().reloadingLabel.GetComponent<Text>().enabled = false;
+        }
 
         if (currRearm == true)
             Rearming();

@@ -11,7 +11,7 @@ public class Ak47 : Weapon {
         Damage = 50;
         MaxCapacity = 30;
         ReloadTime = 2.5F;
-        Range = 200;
+        Range = 100000;
         ActualCapacity = MaxCapacity;
         AnimationArme = animationArme;
         AnimName = "FireAnimTest";

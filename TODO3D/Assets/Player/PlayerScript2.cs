@@ -9,12 +9,22 @@ using UnityEngine.UI;
 
 public class PlayerScript2 : NetworkBehaviour
 {
+    public struct PlayerColor
+    {
+        public float r;
+        public float g;
+        public float b;
+        public PlayerColor(float R, float G, float B)
+        {
+            r = R;
+            g = G;
+            b = B;
+        }
+    }
+
 
     // Public
     public GameObject BulletPrefab;
-    public float BUFFED_SPEED = 2.5F;
-    public float INIT_SPEED = 1.0F;
-    public int SPEED_TIMER = 5;
     public float Speed = 5.0F;
     public float RotationSpeed = 5.0F;
     public float jumpSpeed = 5.0F;
@@ -24,13 +34,20 @@ public class PlayerScript2 : NetworkBehaviour
     public float respawnTime;
     public GameObject healthBar;
     public GameObject mesh;
+    public GameObject ammoText;
+    public GameObject nameLabel;
+    public GameObject reloadingLabel;
+    [SyncVar]
+    public string playerName;
+    [SyncVar]
+    public PlayerColor color;
+    
 
     public const int maxHealth = 100;
 
     public bool isDead { get { return currentHealth <= 0; } }
 
     // Private
-    private DateTime timerSpeed;
     private Vector3 jump;
     private Transform bulletSpawn;
     private Transform cameraHolder;
@@ -46,7 +63,7 @@ public class PlayerScript2 : NetworkBehaviour
     private SkinnedMeshRenderer meshRenderer;
     private DateTime timeOfDeath;
     private new TPCamera camera;
-
+    private Text ammotext;
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -57,11 +74,15 @@ public class PlayerScript2 : NetworkBehaviour
         healthBarTransform = healthBar.GetComponent<Image>();
         meshRenderer = mesh.GetComponent<SkinnedMeshRenderer>();
         camera = cameraHolder.GetChild(0).GetComponent<TPCamera>();
+        ammotext = ammoText.GetComponent<Text>();
+        ammotext.color = Color.yellow;
+        nameLabel.GetComponent<TextMesh>().text = playerName;
+        nameLabel.GetComponent<TextMesh>().color = new Color(color.r, color.g, color.b);
 
-        
         if (isLocalPlayer)
         {
             playerCamera.GetComponent<Camera>().enabled = true;
+            nameLabel.GetComponent<TextMesh>().GetComponent<Renderer>().enabled = false;
         }
         else
             playerCamera.GetComponent<Camera>().enabled = false;
@@ -110,14 +131,13 @@ public class PlayerScript2 : NetworkBehaviour
             ApplyDamage(100);
         }
 
+        ammotext.text = weapon.ActualCapacity.ToString() + " / " + weapon.MaxCapacity.ToString();
+        if ((float)weapon.ActualCapacity / (float)weapon.MaxCapacity <= 0.15F)
+            ammotext.color = Color.red;
+        else
+            ammotext.color = Color.yellow;
 
         healthBarTransform.fillAmount = currentHealth / 100;
-
-	if (BuffedSpeed())
-            Speed = BUFFED_SPEED;
-        else
-            Speed = INIT_SPEED;
-
 
         if (weapon == null)
         {
@@ -132,6 +152,11 @@ public class PlayerScript2 : NetworkBehaviour
         anim.SetBool("isBackwards", Input.GetKey(KeyCode.S));
 
         CheckShoot();
+
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("jump_inPlace"))
+        {
+            anim.GetHashCode();
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded())
         {
@@ -243,7 +268,7 @@ public class PlayerScript2 : NetworkBehaviour
             );
 
 
-
+            bullet.GetComponent<BulletScript>().sender = this;
             bullet.GetComponent<BulletScript>().dmg = weapon.damage;
 
             //Vector3 mousepos = playerCamera.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, weapon.Range));
@@ -256,32 +281,5 @@ public class PlayerScript2 : NetworkBehaviour
 
             Destroy(bullet, 2.0F);
         }
-    }
-
-	private void OnCollisionEnter(Collision collision)
-    	{
-        if (collision.collider.gameObject != GameObject.FindGameObjectWithTag("GameMap"))
-        {
-            if (collision.collider.gameObject == GameObject.FindGameObjectWithTag("BonusLife"))
-            {
-                currentHealth += 30;
-                Destroy(collision.collider.gameObject);
-            }
-
-            if(collision.collider.gameObject == GameObject.FindGameObjectWithTag("BonusSpeed"))
-            {
-                Destroy(collision.collider.gameObject);
-                timerSpeed = DateTime.Now;
-            }
-
-        }
-    }
-
-    private bool BuffedSpeed()
-    {
-        if (DateTime.Now > timerSpeed.AddSeconds(5))
-            return false;
-        else
-            return true;
     }
 }
